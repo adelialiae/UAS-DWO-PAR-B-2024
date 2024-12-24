@@ -1,0 +1,23 @@
+Untuk menjalankan website dashboard diperlukan untuk melakukan import data warehouse MySQL, setting OLAP, dan memindahkan kode yang berisi website dashboard.
+
+A. Import Data Warehouse
+1. Buka phpmyadmin melalui MySQL XAMPP
+2. Import file SQL "dw_purchasing" dan "dw_sales" dari folder "Data Warehouse" menggunakan phpmyadmin
+3. Tunggu proses import selesai
+4. Setelah selesai, data warehouse siap untuk digunakan pada proses selanjutnya
+
+B. Setting OLAP
+1. Pilih file index.html dan index.jsp dan salin dari direktori OLAP Files/mondrian
+2. Buka direktori xampp/tomcat/webapps/mondrian
+3. Paste file hasil copy tadi pada folder mondrian XAMPP
+3. Setelah berhasil menyalin file 2 file sebelumnya, selanjutnya diperlukan untuk menyalin file dari direktori OLAP files/queries
+4. Pergi ke direktori xampp/tomcat/webapps/mondrian/WEB-INF/queries dan paste file yang telah salin pada direktori tersebut
+
+C. Kode Website Dashboard
+1. Extract "dashboard_DWO"
+2. Salin folder "dashboard_DWO"
+3. Pergi ke direktori xampp/htdocs
+4. Paste folder yang telah disalin sebelumnya
+5. Buka XAMPP dan start Apache,MySQL, dan Tomcat
+6. Kemudian pada website tulisan URL localhost/dashboard_DWO
+7. Website akan menampilkan website dashboard
