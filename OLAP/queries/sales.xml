@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<Schema name="sales">
+<!--
+  == This software is subject to the terms of the Eclipse Public License v1.0
+  == Agreement, available at the following URL:
+  == http://www.eclipse.org/legal/epl-v10.html.
+  == You must accept the terms of that agreement to use this software.
+  ==
+  == Copyright (C) 2000-2005 Julian Hyde
+  == Copyright (C) 2005-2011 Pentaho and others
+  == All Rights Reserved.
+  -->
+
+<!-- Shared dimensions -->
+
+  
+
+<!-- Sales -->
+<!-- Sales -->
+<Cube name="Sales" defaultMeasure="Amount">
+  <Table name="fact_sales"/>
+ 
+  <Dimension name="Time" foreignKey="TimeID">
+    <Hierarchy hasAll="true" allMemberName="All Times" primaryKey="TimeID">
+      <Table name="dimtime" />
+      
+      <!-- Menentukan level tahun sebagai "Years" -->
+      <Level name="Year" column="tahun" type="Numeric" uniqueMembers="true" levelType="TimeYears"/>
+      
+      <!-- Menentukan level bulan sebagai "Months" -->
+      <Level name="Month" column="bulan" uniqueMembers="false" type="Numeric" levelType="TimeMonths"/>
+      
+      <!-- Menentukan level tanggal sebagai "Days" -->
+      <Level name="Date" column="tanggal" uniqueMembers="false" type="Numeric" levelType="TimeDays"/>
+      
+      <!-- Level tambahan untuk tanggal lookup dan hari -->
+      <!-- <Level name="Tanggallkp" column="Tanggallkp" uniqueMembers="false" type="String" levelType="Regular"/>
+      <Level name="HariEnglish" column="HariEnglish" uniqueMembers="false" type="String" levelType="Regular"/>
+      <Level name="HariIndo" column="HariIndo" uniqueMembers="false" type="String" levelType="Regular"/>
+      <Level name="HariJawa" column="HariJawa" uniqueMembers="false" type="String" levelType="Regular"/> -->
+    </Hierarchy>
+  </Dimension>
+
+
+
+<Dimension name="Customer" foreignKey="CustomerID">
+    <Hierarchy hasAll="true" allMemberName="All Customers" primaryKey="CustomerID">
+        <Table name="dimcustomer"/>
+        
+        <!-- Level 1: Detail pelanggan -->
+        <Level name="Customer Name" column="CustomerName"/>
+        <!-- Properti tambahan pelanggan -->
+        <Level name="Customer Type" column="CustomerType"/>
+    </Hierarchy>
+</Dimension>
+
+      
+    <Dimension name="Employee" foreignKey="EmployeeID">
+        <Hierarchy hasAll="true" allMemberName="All Employee" primaryKey="EmployeeID">
+            <Table name="dimemployee"/>
+            
+            <!-- Level 1: Nama karyawan -->
+            <Level name="Employee Name" column="EmployeeName"/>
+            
+            <!-- Level 2: Status pernikahan -->
+            <Level name="Marital Status" column="MaritalStatus"/>
+
+            <!-- Level 3: Jenis kelamin -->
+            <Level name="Gender" column="Gender"/>
+
+            <!-- Level 4: Usia -->
+            <Level name="Age" column="Age"/>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Product" foreignKey="ProductID">
+      <Hierarchy hasAll="true" allMemberName="All Product" primaryKey="ProductID">
+          <Table name="dimproduct"/>
+
+          <!-- Level 2: Kategori Produk -->
+          <Level name="Product Category" column="ProductCategory"/>
+
+          <!-- Level 3: Subkategori Produk -->
+          <Level name="Product SubCategory" column="ProductSubCategory"/>
+
+          <!-- Level 1: Detail Produk -->
+          <Level name="Product Name" column="ProductName"/>
+
+         <!-- Level 3: Subkategori Produk -->
+          <Level name="Product Color" column="ProductColor"/>
+      </Hierarchy>
+    </Dimension>
+
+    <Dimension name="Territory" foreignKey="TerritoryID">
+      <Hierarchy hasAll="true" allMemberName="All Territory" primaryKey="TerritoryID">
+          <Table name="dimsalesterritory"/>
+          <Level name="Territory ID" column="TerritoryID"/>
+          <Level name="Group" column="Group"/>
+          <Level name="Country Region Code" column="CountryRegionCode"/>
+          <Level name="Territory Name" column="TerritoryName  "/>
+              <!-- <Property name="Group Description" column="group_description" type="String"/> -->
+      </Hierarchy>
+  </Dimension>
+
+
+  <!-- Measures -->
+    <Measure name="SalesAmount" column="SalesAmount" aggregator="sum" formatString="Standard"/>
+    <Measure name="Quantity" column="Quantity" aggregator="sum" formatString="#,###"/>
+    
+    <!-- Measures for counting unique IDs -->
+    <Measure name="Unique Products" column="ProductID" aggregator="distinct-count" formatString="#,###"/>
+    <Measure name="Unique Times" column="TimeID" aggregator="distinct-count" formatString="#,###"/>
+    <Measure name="Unique Employees" column="EmployeeID" aggregator="distinct-count" formatString="#,###"/>
+    <Measure name="Unique Customers" column="CustomerID" aggregator="distinct-count" formatString="#,###"/>
+    <Measure name="Unique Territories" column="TerritoryID" aggregator="distinct-count" formatString="#,###"/>
+  
+</Cube>
+
+
+</Schema>
